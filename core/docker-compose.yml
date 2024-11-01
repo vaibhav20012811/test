@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    container_name: ecom_app
+    command: "gunicorn --workers 3 --bind 0.0.0.0:8000 core.wsgi:application" # --access-logfile - --error-logfile
+    volumes:
+      - .:/app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=ecom_DEV
+      - DB_USER=postgres
+      - DB_PASSWORD=Vaibhav@123
+      - DB_HOST=db
+    depends_on:
+      - db
+    networks:
+      - my_custom_network
+
+  db:
+    image: postgres:17
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=ecom_DEV
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Vaibhav@123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my_custom_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+networks:
+  my_custom_network:
+    driver: bridge

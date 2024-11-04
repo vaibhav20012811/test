@@ -1,5 +1,5 @@
 # Use the official Python image
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 # Set the working directory
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Set the default command for the container
-CMD ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:8000", "core.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application"]

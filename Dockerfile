@@ -17,4 +17,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Set the default command for the container
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application"]
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]

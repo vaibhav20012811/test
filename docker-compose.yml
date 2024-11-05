@@ -4,7 +4,8 @@ services:
   web:
     build: .
     container_name: core
-    command: "gunicorn core.wsgi:application --bind 0.0.0.0:8000" # --access-logfile - --error-logfile
+    # command: "gunicorn core.wsgi:application --bind 0.0.0.0:8000" # --access-logfile - --error-logfile
+    command: "python3 manage.py runserver 0.0.0.0:8000" # --access-logfile - --error-logfile
     volumes:
       - .:/app
     logging:
